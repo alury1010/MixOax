@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.javapuebla.bd.mappers.ProductoMapper">
+	<resultMap id="ProductoResult"
+		type="com.javapuebla.bd.domain.Producto">
+		<id column="fiIdProducto" property="fiIdProducto"
+			jdbcType="INTEGER" />
+		<result column="fcNombre" property="fcNombre"
+			jdbcType="VARCHAR" />
+		<result column="fcCodigo" property="fcCodigo"
+			jdbcType="VARCHAR" />
+		<result column="fcCodigoSAT" property="fcCodigoSAT"
+			jdbcType="VARCHAR" />
+		<result column="fcDetalle" property="fcDetalle"
+			jdbcType="VARCHAR" />
+		<result column="fnPrecio" property="fnPrecio"
+			jdbcType="DECIMAL" />
+		<result column="fiEstado" property="fiEstado"
+			jdbcType="INTEGER" />
+		<result column="fiNumPiezas" property="fiNumPiezas"
+			jdbcType="INTEGER" />
+
+		<collection property="propiedades"
+			column="fiIdRelacionProducto" javaType="ArrayList"
+			ofType="com.javapuebla.bd.domain.Catalogo"
+			resultMap="com.javapuebla.bd.mappers.CatalogoMapper.CatalogoResult" />
+
+	</resultMap>
+
+	<select id="obtenerProductos" resultMap="ProductoResult">
+		{CALL
+		spMixOaxConsProducto()}
+	</select>
+
+	<select id="obtenerProductoById" resultMap="ProductoResult"
+		parameterType="com.javapuebla.bd.domain.Producto">
+		{CALL
+		spMixOaxConsProductoById(#{fiIdProducto,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} )}
+	</select>
+
+
+	<insert id="insertarProducto"
+		parameterType="com.javapuebla.bd.domain.Producto"
+		statementType="CALLABLE">
+		{CALL spMixOaxInsProducto(
+		#{fcCodigo,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fcCodigoSAT,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fcNombre,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fcDetalle,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fnPrecio,javaType=BigDecimal,
+		jdbcType=DECIMAL, mode=IN} ,
+		#{fiEstado,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiNumPiezas,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdCatalogo,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdClasificacion,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdTamanio,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdTalla,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdMaterial,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdMarca,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdProducto,javaType=Integer,
+		jdbcType=INTEGER, mode=INOUT})}
+	</insert>
+
+
+	<update id="actualizarProducto"
+		parameterType="com.javapuebla.bd.domain.Producto">
+		{CALL
+		spMixOaxActProducto(
+		#{fcCodigo,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fcCodigoSAT,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fcNombre,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fcDetalle,javaType=String,
+		jdbcType=VARCHAR, mode=IN} ,
+		#{fnPrecio,javaType=BigDecimal,
+		jdbcType=DECIMAL, mode=IN} ,
+		#{fiEstado,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiNumPiezas,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdCatalogo,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdRelProductoCatalogo,javaType=Integer, jdbcType=INTEGER,
+		mode=IN},
+		#{fiIdClasificacion,javaType=Integer, jdbcType=INTEGER,
+		mode=IN} ,
+		#{fiIdRelProductoClasificacion,javaType=Integer,
+		jdbcType=INTEGER,mode=IN} ,
+		#{fiIdTamanio,javaType=Integer,
+		jdbcType=INTEGER, mode=IN} ,
+		#{fiIdRelProductoTamanio,javaType=Integer, jdbcType=INTEGER, mode=IN}
+		,
+		#{fiIdTalla,javaType=Integer, jdbcType=INTEGER, mode=IN} ,
+		#{fiIdRelProductoTalla,javaType=Integer, jdbcType=INTEGER, mode=IN} ,
+		#{fiIdMaterial,javaType=Integer, jdbcType=INTEGER, mode=IN} ,
+		#{fiIdRelProductoMaterial,javaType=Integer, jdbcType=INTEGER,
+		mode=IN},
+		#{fiIdMarca,javaType=Integer, jdbcType=INTEGER, mode=IN} ,
+		#{fiIdRelProductoMarca,javaType=Integer, jdbcType=INTEGER, mode=IN} ,
+		#{fiIdProducto,javaType=Integer, jdbcType=INTEGER, mode=IN})}
+	</update>
+
+	<update id="eliminarProducto" parameterType="Integer">
+		{CALL
+		spMixOaxElimProducto(
+		#{fiIdProducto,javaType=Integer,
+		jdbcType=INTEGER, mode=IN})}
+	</update>
+
+</mapper>

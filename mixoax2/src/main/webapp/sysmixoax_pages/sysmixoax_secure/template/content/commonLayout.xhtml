@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<f:view contentType="text/html">
+
+	<h:head>
+		<title>MIXOAX</title>
+
+		<style type="text/css" media="screen, print">
+@font-face {
+	font-family: "OpenSans";
+	src: url("../resources/fonts/OpenSans-Regular.ttf");
+	font-weight: 13px;
+	font-style: none;
+}
+</style>
+		
+
+		
+
+
+		
+
+		<h:outputScript library="primefaces" name="jquery/jquery.js" />
+
+	</h:head>
+
+	<h:body>
+
+		<div class="section margenes-ventana-principal" id="seccion-principal">
+			<ui:insert name="header">
+				<ui:include src="commonHeader.xhtml" />
+			</ui:insert>
+			<ui:insert name="content">
+				<ui:include name="content" src="commonContent.xhtml" />
+			</ui:insert>
+			<ui:insert name="footer">
+				<ui:include src="commonFooter.xhtml" />
+			</ui:insert>
+		</div>
+	</h:body>
+
+</f:view>
+
+</html>

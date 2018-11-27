@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<!-- <ui:composition template="/sysmixoax_pages/sysmixoax_secure/template/content/commonLayout.xhtml">
+ -->
+<ui:composition>
+
+	<h:form id="formCotizador">
+		<p:growl id="msg" showDetail="true" escape="false" />
+		<h3>COTIZADOR</h3>
+		<p:pickList id="PojoPickList" value="#{cotizadorBean.productos}"
+			var="producto" effect="bounce" itemValue="#{producto}"
+			itemLabel="#{producto.fcNombre}" showSourceControls="true"
+			showTargetControls="true" showCheckbox="true" showSourceFilter="true"
+			showTargetFilter="true" filterMatchMode="contains" responsive="true">
+
+			<f:facet name="sourceCaption">Available</f:facet>
+			<f:facet name="targetCaption">Starting</f:facet>
+
+			<p:ajax event="transfer" listener="#{cotizadorBean.onTransfer}"
+				update="msg tblCotizacion" />
+			<p:ajax event="select" listener="#{cotizadorBean.onSelect}"
+				update="msg" />
+			<p:ajax event="unselect" listener="#{cotizadorBean.onUnselect}"
+				update="msg" />
+			<p:ajax event="reorder" listener="#{cotizadorBean.onReorder}"
+				update="msg" />
+
+			<p:column style="width:85%;">
+				<h:outputText value="#{producto.fcNombre}" />
+			</p:column>
+		</p:pickList>
+
+
+
+
+		<p:dataTable id="tblCotizacion" value="#{cotizadorBean.productosTarget}" var="producto">
+			<p:column headerText="Codigo" sortBy="#{producto.fcCodigo}">
+				<h:outputText value="#{producto.fcCodigo}" />
+
+			</p:column>
+
+			<p:column headerText="CodigoSAT" sortBy="#{producto.fcCodigoSAT}">
+				<h:outputText value="#{producto.fcCodigoSAT}" />
+
+			</p:column>
+
+			<p:column headerText="Marca">
+				<h:outputText value="#{producto.fcMarca}" />
+
+			</p:column>
+
+			<p:column headerText="Nombre" sortBy="#{producto.fcNombre}">
+				<h:outputText value="#{producto.fcNombre}" />
+
+			</p:column>
+
+			<p:column headerText="Precio" sortBy="#{producto.fnPrecio}"
+				style="text-align:right">
+				<h:outputText value="#{producto.fnPrecio}" />
+
+			</p:column>
+			<p:summaryRow>
+				<p:column colspan="4" style="text-align:right">
+					<h:outputText value="Total:" />
+				</p:column>
+				<p:column>
+					<h:outputText value="#{cotizadorBean.totalCotizacion}">
+						<f:convertNumber type="currency" currencySymbol="$" />
+					</h:outputText>
+				</p:column>
+			</p:summaryRow>
+		</p:dataTable>
+
+	</h:form>
+</ui:composition>
+</html>

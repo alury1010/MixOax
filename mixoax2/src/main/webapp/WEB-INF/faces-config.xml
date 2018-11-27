@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+ 
+	<application>
+		<el-resolver>
+    		    org.springframework.web.jsf.el.SpringBeanFacesELResolver
+		</el-resolver>
+  	</application>
+  	<!-- <navigation-rule>
+        <from-view-id>/sysmixoax_pages/sysmixoax_secure/bienvenida.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>inventario</from-outcome>
+            <to-view-id>/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> -->
+    
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/sysmixoax_pages/sysmixoax_secure/bienvenida.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>inventario</from-outcome>
+            <to-view-id>/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cotizador</from-outcome>
+            <to-view-id>/sysmixoax_pages/sysmixoax_secure/Cotizador/index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+</faces-config>

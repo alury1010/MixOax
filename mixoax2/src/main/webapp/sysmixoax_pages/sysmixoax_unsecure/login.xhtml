@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>login</title>
+</h:head>
+
+<h:body>
+	<div class="centro" align="center">
+		<center>
+			<h:form id="loginFormId" prependId="false">
+				<div id="loginFieldsPnlId">
+					<div id="loginFieldUsrContId">
+						<h:outputText id="outTxtUserNameId" value="user name:"
+							name="outTxtUserNameId" />
+						<h:inputText id="userName" required="true"
+							value="#{loginMgmtBean.userName}"
+							requiredMessage="escribe un username" />
+						<h:outputLabel id="outlblUserNameId" for="userName"
+							name="outlblUsernameNm" />
+					</div>
+
+					<div id="loginFieldPassContId">
+						<h:outputText id="outTxtPasswordNameId" value="password:"
+							name="outTxtPasswordNameId" />
+						<h:inputText id="password" required="true"
+							value="#{loginMgmtBean.password}"
+							requiredMessage="escribe una contraseña" name="inTxtPasswordNm" />
+						<h:outputLabel id="outlblPasswordNameId" for="password"
+							name="outlblPasswordnameNm" />
+					</div>
+				</div>
+				<div id="logibBtnPanelId">
+					<h:commandButton id="btnLoginId" value="Login"
+						action="#{loginMgmtBean.login}" styleClass="loginPanelBtn" />
+				</div>
+			</h:form>
+		</center>
+	</div>
+	<div>
+		<h:messages></h:messages>
+	</div>
+</h:body>
+
+</html>

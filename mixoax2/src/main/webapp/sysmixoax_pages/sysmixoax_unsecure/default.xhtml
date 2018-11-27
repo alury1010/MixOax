@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:body>
+
+	<h1>:: JSF 2 + PrimeFaces 5.1 + Spring 3 + MyBatis 3 + Maven ::</h1>
+
+	<p>#{customerBean.printMsgFromSpring()}</p>
+
+	<h3>Clientes en BD</h3>
+
+	<h:dataTable value="#{customerBean.customerList}" var="cust">
+
+		<h:column>
+			<!-- column header -->
+			<f:facet name="header">Id</f:facet>
+			<!-- row record -->
+    				#{cust.id}
+    			</h:column>
+
+		<h:column>
+			<f:facet name="header">Nombre</f:facet>
+    				#{cust.firstName}
+    			</h:column>
+
+		<h:column>
+			<f:facet name="header">Apellido</f:facet>
+    				#{cust.lastName}
+    			</h:column>
+
+		<h:column>
+			<f:facet name="header">Email</f:facet>
+    				#{cust.email}
+    			</h:column>
+
+		<h:column>
+			<f:facet name="header">Status</f:facet>
+    				#{cust.status}
+    			</h:column>
+
+	</h:dataTable>
+
+	<p>
+		<h:link value="O -> versión Cool en prime" outcome="/pages/secure/defaultPrime" />
+	</p>
+
+</h:body>
+
+</html>

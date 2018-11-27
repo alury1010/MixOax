@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- 	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:pe="http://primefaces.org/ui/extensions" -->
+
+
+<ui:composition>
+	<h:form id="formInit">
+
+		<style type="text/css">
+.ui-datatable, .ui-datatable .ui-datatable-tablewrapper table {
+	font-size: 12px !important;
+}
+
+/* For Paginator */
+.ui-datatable .ui-paginator .ui-paginator-first, .ui-datatable .ui-paginator .ui-paginator-prev,
+	.ui-datatable .ui-paginator .ui-paginator-pages .ui-paginator-page,
+	.ui-datatable .ui-paginator .ui-paginator-next, .ui-datatable .ui-paginator .ui-paginator-last,
+	.ui-datatable .ui-paginator .ui-paginator-rpp-options {
+	font-size: 10px !important;
+}
+
+.ui-datatable .ui-paginator .ui-paginator-current {
+	font-size: 10px !important;
+}
+</style>
+		<p:growl id="msgs" showDetail="true" sticky="true" />
+
+
+		<p:dataTable var="producto" value="#{productoBean.registroTabla}"
+			id="tablaProductos" rowKey="#{producto.fiIdProducto}" editable="true"
+			selection="#{productoBean.selectedProducto}" selectionMode="single"
+			widgetVar="productosTabla" rows="20" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15,20,50">
+
+			<f:facet name="header">
+
+				<div align="left" style="display: inline;">
+					<h:commandLink immediate="true">
+						<p:graphicImage library="images" name="excel_16.png" width="24px;"
+							title="Excel" />
+						<p:dataExporter target="tablaProductos" type="xls"
+							fileName="Inventario" />
+					</h:commandLink>
+					Inventario
+				</div>
+
+			</f:facet>
+
+			<p:ajax event="rowEdit" listener="#{productoBean.onRowEdit}"
+				update=":formInit:msgs :formInit:tablaProductos" />
+			<p:ajax event="rowEditCancel" listener="#{productoBean.onRowCancel}"
+				update=":formInit:msgs" />
+
+
+
+
+			<p:column headerText="Codigo" sortBy="#{producto.fcCodigo}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcCodigo}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{producto.fcCodigo}"
+							style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="CodigoSAT" sortBy="#{producto.fcCodigoSAT}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcCodigoSAT}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.fcCodigoSAT}" style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Marca">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcMarca}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu required="true" value="#{producto.fiIdMarca}"
+							style="width:100%">
+							<f:selectItems value="#{productoBean.listMarcaProducto}" />
+						</p:selectOneMenu>
+
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Nombre" sortBy="#{producto.fcNombre}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcNombre}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.fcNombre}" style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Detalle">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcDetalle}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.fcDetalle}" style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Precio" sortBy="#{producto.fnPrecio}"
+				style="text-align:right">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="$#{producto.fnPrecio}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.fnPrecio}" style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Cantidad" sortBy="#{producto.fiNumPiezas}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fiNumPiezas}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.fiNumPiezas}" style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Estado" sortBy="#{producto.estado}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.estado}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.estado}" style="width:88%" readonly="true"/>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Categoria">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcCatalogo}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu required="true" value="#{producto.fiIdCatalogo}"
+							style="width:100%">
+							<f:selectItems value="#{productoBean.listCategoriaProducto}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+
+
+			<p:column headerText="Clasificacion">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcClasificacion}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu id="txtCategoria" required="true"
+							value="#{producto.fiIdClasificacion}" style="width:100%">
+							<f:selectItems value="#{productoBean.listClasificacionProducto}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Tamaño">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcTamanio}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu required="true" value="#{producto.fiIdTamanio}"
+							style="width:100%">
+							<f:selectItems value="#{productoBean.listTamanioProducto}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Talla">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcTalla}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu required="true" value="#{producto.fiIdTalla}"
+							style="width:100%">
+							<f:selectItems value="#{productoBean.listTallaProducto}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Material">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fcMaterial}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:selectOneMenu required="true" value="#{producto.fiIdMaterial}"
+							style="width:100%">
+							<f:selectItems value="#{productoBean.listMaterialProducto}" />
+						</p:selectOneMenu>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:commandButton icon="ui-icon-close" title="Eliminar"
+					actionListener="#{productoBean.eliminarProducto(producto)}"
+					update=":formInit:tablaProductos" immediate="true">
+					<f:setPropertyActionListener value="#{producto}"
+						target="#{productoBean.selectedProducto}" />
+				</p:commandButton>
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton update=":formInit:verProducto" immediate="true"
+					oncomplete="PF('dlgVerDetalles').show()" icon="ui-icon-search"
+					title="Ver">
+					<f:setPropertyActionListener value="#{producto}"
+						target="#{productoBean.selectedProducto}" />
+				</p:commandButton>
+			</p:column>
+
+
+			<f:facet name="footer">
+				<div align="right">
+					<p:commandButton onclick="PF('dlg').show();" icon="ui-icon-plus"
+						title="Nuevo">
+					</p:commandButton>
+				</div>
+			</f:facet>
+		</p:dataTable>
+
+
+
+		<p:dialog header="Nuevo Producto" widgetVar="dlg" modal="true"
+			resizable="false">
+			<ui:include src="nuevoProducto.xhtml" />
+
+		</p:dialog>
+
+		<p:dialog header="Ver Producto" widgetVar="dlgVerDetalles"
+			modal="true" resizable="false">
+			<p:outputPanel id="verProducto" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{productoBean.selectedProducto ne null}"
+					columnClasses="label,value">
+
+
+					<h:outputText value="Codigo:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcCodigo}" />
+					
+					<h:outputText value="CodigoSAT:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcCodigoSAT}" />
+
+					<h:outputText value="Nombre:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcNombre}" />
+
+					<h:outputText value="Marca:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcMarca}" />
+
+					<h:outputText value="Detalle:" />
+					<h:inputTextarea readonly="true"
+						value="#{productoBean.selectedProducto.fcDetalle}"
+						style="border:none" disabled="true" cols="25" rows="5" />
+
+
+					<h:outputText value="Precio:" />
+					<h:outputText value="$#{productoBean.selectedProducto.fnPrecio}" />
+
+					<h:outputText value="Cantidad:" />
+					<h:outputText value="#{productoBean.selectedProducto.fiNumPiezas}" />
+
+					<h:outputText value="Categoria:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcCatalogo}" />
+
+					<h:outputText value="Clasificacion:" />
+					<h:outputText
+						value="#{productoBean.selectedProducto.fcClasificacion}" />
+
+					<h:outputText value="Tamaño:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcTamanio}" />
+
+					<h:outputText value="Talla:" />
+					<h:outputText value="#{productoBean.selectedProducto.fcTalla}" />
+
+					<h:outputText value="Material" />
+					<h:outputText value="#{productoBean.selectedProducto.fcMaterial}" />
+
+				</p:panelGrid>
+			</p:outputPanel>
+
+		</p:dialog>
+
+	</h:form>
+</ui:composition>
+</html>
