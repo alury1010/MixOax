@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<!-- xmlns:sec="http://www.springframework.org/security/tags" -->
+
+<ui:composition>
+
+	<h:form>
+		<p:growl id="messages" />
+		<p:menubar>
+			<p:menuitem action="home" value="Home" ajax="false" />
+			<p:menuitem action="inventario" value="Inventario" ajax="false" />
+			<p:menuitem action="cotizador" value="Cotizador" ajax="false" />
+		</p:menubar>
+	</h:form>
+
+</ui:composition>
+</html>

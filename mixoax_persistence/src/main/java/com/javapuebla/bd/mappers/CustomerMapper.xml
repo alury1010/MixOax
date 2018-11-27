@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.javapuebla.bd.mappers.CustomerMapper">
+	<resultMap id="CustomerResult" type="com.javapuebla.bd.domain.Customer">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="firstName" property="firstName" jdbcType="VARCHAR" />
+		<result column="lastName" property="lastName" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- <select id="findAllCustomer" resultMap="CustomerResult"> SELECT * FROM 
+		Customer </select> -->
+
+	<select id="findAllCustomer" resultMap="CustomerResult">
+		{CALL spConsUsuarios()}
+	</select>
+
+	<update id="updateCustomer" parameterType="com.javapuebla.bd.domain.Customer">
+		{CALL spActUsuario(
+		#{id, javaType=Integer, jdbcType=INTEGER, mode=IN},
+		#{firstName, javaType=String, jdbcType=VARCHAR, mode=IN},
+		#{lastName, javaType=String, jdbcType=VARCHAR, mode=IN},
+		#{email, javaType=String, jdbcType=VARCHAR, mode=IN},
+		#{status, javaType=Integer, jdbcType=INTEGER, mode=IN}
+		)}
+	</update>
+
+	<!-- <update id="updateCustomer" parameterType="com.javapuebla.bd.domain.Customer"> 
+		UPDATE Customer SET firstName = #{firstName}, lastName = #{lastName}, email 
+		= #{email}, status = #{status} WHERE id = #{id} </update> -->
+</mapper>

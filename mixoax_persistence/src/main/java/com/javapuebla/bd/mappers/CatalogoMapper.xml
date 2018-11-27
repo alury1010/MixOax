@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.javapuebla.bd.mappers.CatalogoMapper" >
+	<resultMap id="CatalogoResult" type="com.javapuebla.bd.domain.Catalogo" >
+    	<id column="fiIdRelacionProducto" property="fiIdRelacionProducto" jdbcType="INTEGER"/>
+    	<result column="fiIdCatalogo" property="fiIdCatalogo" jdbcType="INTEGER" />
+    	<result column="fcNombreCatalogo" property="fcNombreCatalogo" jdbcType="VARCHAR" />
+    	<result column="fiIdTipoCatalogo" property="fiIdTipoCatalogo" jdbcType="INTEGER" />
+    	<result column="fcNombreTipoCatalogo" property="fcNombreTipoCatalogo" jdbcType="VARCHAR" />
+    	<result column="fcDescripcionCatalogo" property="fcDescripcionCatalogo" jdbcType="VARCHAR" />
+    	
+    	
+  	</resultMap>
+  
+  <select id="obtenerCatalogo" resultMap="CatalogoResult" parameterType="int">
+		{CALL
+		spMixOaxConsCatalogo(#{id})}
+	</select>
+  	  
+</mapper>
