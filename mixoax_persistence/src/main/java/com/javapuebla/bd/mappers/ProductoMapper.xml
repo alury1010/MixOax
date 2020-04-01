@@ -13,7 +13,9 @@
 			jdbcType="VARCHAR" />
 		<result column="fcDetalle" property="fcDetalle"
 			jdbcType="VARCHAR" />
-		<result column="fnPrecio" property="fnPrecio"
+		<result column="fnPrecioIva" property="fnPrecioIva"
+			jdbcType="DECIMAL" />
+		<result column="fnPrecioSinIva" property="fnPrecioSinIva"
 			jdbcType="DECIMAL" />
 		<result column="fiEstado" property="fiEstado"
 			jdbcType="INTEGER" />
@@ -52,7 +54,9 @@
 		jdbcType=VARCHAR, mode=IN} ,
 		#{fcDetalle,javaType=String,
 		jdbcType=VARCHAR, mode=IN} ,
-		#{fnPrecio,javaType=BigDecimal,
+		#{fnPrecioIva,javaType=BigDecimal,
+		jdbcType=DECIMAL, mode=IN} ,
+		#{fnPrecioSinIva,javaType=BigDecimal,
 		jdbcType=DECIMAL, mode=IN} ,
 		#{fiEstado,javaType=Integer,
 		jdbcType=INTEGER, mode=IN} ,
@@ -87,7 +91,9 @@
 		jdbcType=VARCHAR, mode=IN} ,
 		#{fcDetalle,javaType=String,
 		jdbcType=VARCHAR, mode=IN} ,
-		#{fnPrecio,javaType=BigDecimal,
+		#{fnPrecioIva,javaType=BigDecimal,
+		jdbcType=DECIMAL, mode=IN} ,
+		#{fnPrecioSinIva,javaType=BigDecimal,
 		jdbcType=DECIMAL, mode=IN} ,
 		#{fiEstado,javaType=Integer,
 		jdbcType=INTEGER, mode=IN} ,

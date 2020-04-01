@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -6,24 +7,49 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-<!-- <ui:composition template="/sysmixoax_pages/sysmixoax_secure/template/content/commonLayout.xhtml">
- -->
+
 <ui:composition>
 
 	<h:form id="formCotizador">
+
+		<style type="text/css">
+.ui-datatable, .ui-datatable .ui-datatable-tablewrapper table {
+	font-size: 12px !important;
+}
+
+/* For Paginator */
+.ui-datatable .ui-paginator .ui-paginator-first, .ui-datatable .ui-paginator .ui-paginator-prev,
+	.ui-datatable .ui-paginator .ui-paginator-pages .ui-paginator-page,
+	.ui-datatable .ui-paginator .ui-paginator-next, .ui-datatable .ui-paginator .ui-paginator-last,
+	.ui-datatable .ui-paginator .ui-paginator-rpp-options {
+	font-size: 10px !important;
+}
+
+.ui-datatable .ui-paginator .ui-paginator-current {
+	font-size: 10px !important;
+}
+
+.ui-picklist .ui-picklist-list {
+	font-size: 10px !important;
+}
+</style>
+
+
 		<p:growl id="msg" showDetail="true" escape="false" />
-		<h3>COTIZADOR</h3>
+
+		<br />
 		<p:pickList id="PojoPickList" value="#{cotizadorBean.productos}"
-			var="producto" effect="bounce" itemValue="#{producto}"
+			var="producto" itemValue="#{producto}"
 			itemLabel="#{producto.fcNombre}" showSourceControls="true"
 			showTargetControls="true" showCheckbox="true" showSourceFilter="true"
-			showTargetFilter="true" filterMatchMode="contains" responsive="true">
+			showTargetFilter="true" filterMatchMode="contains" responsive="true"
+			converter="converterProducto">
 
-			<f:facet name="sourceCaption">Available</f:facet>
-			<f:facet name="targetCaption">Starting</f:facet>
+			<f:facet name="sourceCaption">Disponibles</f:facet>
+			<f:facet name="targetCaption">Seleccionados</f:facet>
 
 			<p:ajax event="transfer" listener="#{cotizadorBean.onTransfer}"
-				update="msg tblCotizacion" />
+				update="tblCotizacion input" />
 			<p:ajax event="select" listener="#{cotizadorBean.onSelect}"
 				update="msg" />
 			<p:ajax event="unselect" listener="#{cotizadorBean.onUnselect}"
@@ -36,22 +62,50 @@
 			</p:column>
 		</p:pickList>
 
+		<br />
 
+		<p:dataTable id="tblCotizacion"
+			value="#{cotizadorBean.productosTarget}" var="producto"
+			scrollable="true" scrollHeight="180"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+			paginator="true" rows="10" style="margin-bottom:20px" editable="true">
 
+			<f:facet name="header">
+				COTIZACION
+			</f:facet>
+			<f:facet name="header">
+				<div style="float: right;">
+					Exportar
+					<h:commandLink immediate="true">
+						<p:graphicImage library="images" name="excel_16.png" width="24px;"
+							title="Excel" />
+						<p:dataExporter target="tblCotizacion" type="xls"
+							fileName="Cotizacion"
+							postProcessor="#{cotizadorBean.postProcessXLS}" />
+					</h:commandLink>
+				</div>
+			</f:facet>
 
-		<p:dataTable id="tblCotizacion" value="#{cotizadorBean.productosTarget}" var="producto">
-			<p:column headerText="Codigo" sortBy="#{producto.fcCodigo}">
-				<h:outputText value="#{producto.fcCodigo}" />
+			<p:ajax event="rowEdit" listener="#{cotizadorBean.onRowEdit}"
+				update=":formCotizador:msg :formCotizador:input" />
+			<p:ajax event="rowEditCancel" listener="#{cotizadorBean.onRowCancel}"
+				update=":formCotizador:msg" />
 
+			<p:column style="width:32px" exportable="false">
+				<p:rowEditor />
 			</p:column>
 
-			<p:column headerText="CodigoSAT" sortBy="#{producto.fcCodigoSAT}">
-				<h:outputText value="#{producto.fcCodigoSAT}" />
-
-			</p:column>
-
-			<p:column headerText="Marca">
-				<h:outputText value="#{producto.fcMarca}" />
+			<p:column headerText="Cantidad"
+				style="width:100px; text-align:center">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{producto.fiCantidad}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText id="modelInput" value="#{producto.fiCantidad}"
+							style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
 
 			</p:column>
 
@@ -60,22 +114,31 @@
 
 			</p:column>
 
-			<p:column headerText="Precio" sortBy="#{producto.fnPrecio}"
-				style="text-align:right">
-				<h:outputText value="#{producto.fnPrecio}" />
+			<p:column headerText="Precio sin Iva"
+				sortBy="#{producto.fnPrecioSinIva}" style="text-align:right">
+				<h:outputText value="#{producto.fnPrecioSinIva}" />
 
 			</p:column>
-			<p:summaryRow>
-				<p:column colspan="4" style="text-align:right">
-					<h:outputText value="Total:" />
-				</p:column>
-				<p:column>
-					<h:outputText value="#{cotizadorBean.totalCotizacion}">
-						<f:convertNumber type="currency" currencySymbol="$" />
-					</h:outputText>
-				</p:column>
-			</p:summaryRow>
+
+			<p:column headerText="Precio Iva" sortBy="#{producto.fnPrecioIva}"
+				style="text-align:right">
+				<h:outputText value="#{producto.fnPrecioIva}" />
+
+			</p:column>
+
+			<p:column headerText="Importe" sortBy="#{producto.fnImporte}"
+				style="text-align:right">
+				<h:outputText value="#{producto.fnImporte}" />
+
+			</p:column>
+
 		</p:dataTable>
+
+		<div align="right">
+			<p:outputLabel for="input" value="TOTAL:" />
+			<p:inputText id="input" value="#{cotizadorBean.totalImporte}"
+				style="text-align:right" />
+		</div>
 
 	</h:form>
 </ui:composition>

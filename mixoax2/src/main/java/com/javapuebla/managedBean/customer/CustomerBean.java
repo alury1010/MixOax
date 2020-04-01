@@ -4,20 +4,20 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-import org.springframework.context.annotation.Scope;
 
 import com.javapuebla.bd.domain.Customer;
 import com.javapuebla.bo.customer.CustomerBo;
 import com.javapuebla.service.customer.CustomerService;
 
 @Named
-@Scope("session")
+@ViewScoped
 public class CustomerBean implements Serializable{
 
 	/**

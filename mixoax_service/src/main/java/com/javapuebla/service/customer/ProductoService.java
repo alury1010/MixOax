@@ -39,6 +39,7 @@ public class ProductoService implements IProductoService, Serializable {
 
 	public void actualizarProducto(Producto producto) throws Exception {
 		try {
+			System.out.println(producto.toString());
 			productoDao.actualizarProducto(producto);
 		} catch (Exception e) {
 			throw e;

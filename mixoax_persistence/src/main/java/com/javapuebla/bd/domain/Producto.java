@@ -9,11 +9,12 @@ public class Producto {
 	private String fcCodigo;
 	private String fcNombre;
 	private String fcDetalle;
-	private BigDecimal fnPrecio;
+	private BigDecimal fnPrecioIva;
 	private Integer fiEstado;
 	private String estado;
 	private Integer fiNumPiezas;
 	private String fcCodigoSAT;
+	private BigDecimal fnPrecioSinIva;
 
 	private List<Catalogo> propiedades;
 
@@ -35,26 +36,31 @@ public class Producto {
 	private Integer fiIdRelProductoTamanio;
 	private Integer fiIdRelProductoTalla;
 	private Integer fiIdRelProductoMaterial;
-	
+
+	/* Atributos utilizados para la cotización */
+
+	private int fiCantidad = 1;
+	private BigDecimal fnImporte;
+
 	public void copy(Producto p) {
 		this.fiIdProducto = p.getFiIdProducto();
 		this.fcCodigo = p.getFcCodigo();
 		this.fcNombre = p.getFcNombre();
 		this.fcDetalle = p.getFcDetalle();
-		this.fnPrecio = p.getFnPrecio();
+		this.fnPrecioIva = p.getFnPrecioIva();
+		this.fnPrecioSinIva = p.getFnPrecioSinIva();
 		this.fiEstado = p.getFiEstado();
 		this.fiNumPiezas = p.getFiNumPiezas();
 		this.fcCodigoSAT = p.getFcCodigoSAT();
 		this.estado = p.getEstado();
 		this.propiedades = new ArrayList<Catalogo>();
-		Catalogo cat ;
-		for(Catalogo c : p.getPropiedades()) {
+		Catalogo cat;
+		for (Catalogo c : p.getPropiedades()) {
 			cat = new Catalogo();
 			cat.copy(c);
 			this.propiedades.add(cat);
 		}
-		
-		
+
 		fiIdMarca = p.getFiIdMarca();
 		fcMarca = p.getFcMarca();
 		fiIdClasificacion = p.getFiIdClasificacion();
@@ -66,14 +72,14 @@ public class Producto {
 		fiIdTalla = p.getFiIdTalla();
 		fcTalla = p.getFcTalla();
 		fiIdMaterial = p.getFiIdMaterial();
-		fcMaterial= p.getFcMaterial();
+		fcMaterial = p.getFcMaterial();
 		fiIdRelProductoMarca = p.getFiIdRelProductoMarca();
 		fiIdRelProductoClasificacion = p.getFiIdRelProductoClasificacion();
 		fiIdRelProductoCatalogo = p.getFiIdRelProductoCatalogo();
 		fiIdRelProductoTamanio = p.getFiIdRelProductoTamanio();
 		fiIdRelProductoTalla = p.getFiIdRelProductoTalla();
 		fiIdRelProductoMaterial = p.getFiIdRelProductoMaterial();
-		
+
 	}
 
 	public String toString() {
@@ -82,7 +88,8 @@ public class Producto {
 		s += "fcCodigoSAT = " + fcCodigoSAT + "\n";
 		s += "fcNombre = " + fcNombre + "\n";
 		s += "fcDetalle = " + fcDetalle + "\n";
-		s += "fnPrecio = " + fnPrecio + "\n";
+		s += "fnPrecioIva = " + fnPrecioIva + "\n";
+		s += "fnPrecioSinIva = " + fnPrecioSinIva + "\n";
 		s += "fiEstado = " + fiEstado + "\n";
 		s += "estado = " + estado + "\n";
 		s += "fiNumPiezas = " + fiNumPiezas + "\n";
@@ -93,12 +100,14 @@ public class Producto {
 		s += "fiIdTalla = " + fiIdTalla + "\n";
 		s += "fiIdMaterial = " + fiIdMaterial + "\n";
 		s += "fiIdRelProductoMarca = " + fiIdRelProductoMarca + "\n";
-		s += "fiIdRelProductoClasificacion = " + fiIdRelProductoClasificacion
-				+ "\n";
+		s += "fiIdRelProductoClasificacion = " + fiIdRelProductoClasificacion + "\n";
 		s += "fiIdRelProductoCatalogo = " + fiIdRelProductoCatalogo + "\n";
 		s += "fiIdRelProductoTamanio = " + fiIdRelProductoTamanio + "\n";
 		s += "fiIdRelProductoTalla = " + fiIdRelProductoTalla + "\n";
 		s += "fiIdRelProductoMaterial = " + fiIdRelProductoMaterial + "\n";
+
+		s += "fiCantidad = " + fiCantidad + "\n";
+		s += "fnImporte = " + this.getFnImporte() + "\n";
 
 		return s;
 
@@ -116,14 +125,12 @@ public class Producto {
 					break;
 				case 2:// clasificacion
 					this.fcClasificacion = cat.getFcNombreCatalogo();
-					this.fiIdRelProductoClasificacion = cat
-							.getFiIdRelacionProducto();
+					this.fiIdRelProductoClasificacion = cat.getFiIdRelacionProducto();
 					this.fiIdClasificacion = cat.getFiIdCatalogo();
 					break;
 				case 3:// categoria
 					this.fcCatalogo = cat.getFcNombreCatalogo();
-					this.fiIdRelProductoCatalogo = cat
-							.getFiIdRelacionProducto();
+					this.fiIdRelProductoCatalogo = cat.getFiIdRelacionProducto();
 					this.fiIdCatalogo = cat.getFiIdCatalogo();
 					break;
 				case 4:// tamanio
@@ -138,8 +145,7 @@ public class Producto {
 					break;
 				case 6:// material
 					this.fcMaterial = cat.getFcNombreCatalogo();
-					this.fiIdRelProductoMaterial = cat
-							.getFiIdRelacionProducto();
+					this.fiIdRelProductoMaterial = cat.getFiIdRelacionProducto();
 					this.fiIdMaterial = cat.getFiIdCatalogo();
 					break;
 				default:
@@ -214,21 +220,6 @@ public class Producto {
 	 */
 	public void setFcDetalle(String fcDetalle) {
 		this.fcDetalle = fcDetalle;
-	}
-
-	/**
-	 * @return the fnPrecio
-	 */
-	public BigDecimal getFnPrecio() {
-		return fnPrecio;
-	}
-
-	/**
-	 * @param fnPrecio
-	 *            the fnPrecio to set
-	 */
-	public void setFnPrecio(BigDecimal fnPrecio) {
-		this.fnPrecio = fnPrecio;
 	}
 
 	/**
@@ -392,8 +383,7 @@ public class Producto {
 	 * @param fiIdRelProductoClasificacion
 	 *            the fiIdRelProductoClasificacion to set
 	 */
-	public void setFiIdRelProductoClasificacion(
-			Integer fiIdRelProductoClasificacion) {
+	public void setFiIdRelProductoClasificacion(Integer fiIdRelProductoClasificacion) {
 		this.fiIdRelProductoClasificacion = fiIdRelProductoClasificacion;
 	}
 
@@ -561,6 +551,42 @@ public class Producto {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public BigDecimal getFnPrecioIva() {
+		return fnPrecioIva;
+	}
+
+	public void setFnPrecioIva(BigDecimal fnPrecioIva) {
+		this.fnPrecioIva = fnPrecioIva;
+	}
+
+	public BigDecimal getFnPrecioSinIva() {
+		return fnPrecioSinIva;
+	}
+
+	public void setFnPrecioSinIva(BigDecimal fnPrecioSinIva) {
+		this.fnPrecioSinIva = fnPrecioSinIva;
+	}
+
+	public int getFiCantidad() {
+		return fiCantidad;
+	}
+
+	public void setFiCantidad(int fiCantidad) {
+		this.fiCantidad = fiCantidad;
+	}
+
+	public BigDecimal getFnImporte() {
+		if (this.fnPrecioIva != null) {
+			this.setFnImporte(new BigDecimal(this.fnPrecioIva.floatValue()));
+			return this.fnImporte.multiply(new BigDecimal(this.fiCantidad));
+		}
+		return this.fnImporte;
+	}
+
+	public void setFnImporte(BigDecimal fnImporte) {
+		this.fnImporte = fnImporte;
 	}
 
 }

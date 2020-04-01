@@ -9,93 +9,100 @@
 
 <h:form id="form">
 	<p:growl id="growl" showDetail="true" life="3000" />
-	<p:focus context="panelNuevoP" />
-	<h:panelGrid columns="2" cellpadding="5" id="panelNuevoP">
+	<p:scrollPanel style="height:600px;"  mode="native">
+		<p:focus context="panelNuevoP" />
+		<h:panelGrid columns="2" cellpadding="5" id="panelNuevoP">
 
 
-		<p:outputLabel for="txtCodigo" value="Codigo:"
-			style="text-alignt:right" />
-		<p:inputText id="txtCodigo" value="#{productoBean.producto.fcCodigo}"
-			style="width:100%" required="true">
-		</p:inputText>
+			<p:outputLabel for="txtCodigo" value="Codigo:"
+				style="text-alignt:right" />
+			<p:inputText id="txtCodigo" value="#{productoBean.producto.fcCodigo}"
+				style="width:100%" required="true">
+			</p:inputText>
 
-		<p:outputLabel for="txtCodigoSAT" value="CodigoSAT:"
-			style="text-alignt:right" />
-		<p:inputText id="txtCodigoSAT"
-			value="#{productoBean.producto.fcCodigoSAT}" style="width:100%"
-			required="true">
-		</p:inputText>
+			<p:outputLabel for="txtCodigoSAT" value="CodigoSAT:"
+				style="text-alignt:right" />
+			<p:inputText id="txtCodigoSAT"
+				value="#{productoBean.producto.fcCodigoSAT}" style="width:100%"
+				required="true">
+			</p:inputText>
 
-		<p:outputLabel for="txtNombre" value="Nombre:" />
-		<p:inputText id="txtNombre" value="#{productoBean.producto.fcNombre}"
-			style="width:100%" required="true" />
+			<p:outputLabel for="txtNombre" value="Nombre:" />
+			<p:inputText id="txtNombre" value="#{productoBean.producto.fcNombre}"
+				style="width:100%" required="true" />
 
-		<p:outputLabel for="txtDetalle" value="Detalle:" />
-		<p:inputTextarea id="txtDetalle" maxlength="250" style="width:100%"
-			value="#{productoBean.producto.fcDetalle}" required="true" />
+			<p:outputLabel for="txtDetalle" value="Detalle:" />
+			<p:inputTextarea id="txtDetalle" maxlength="250" style="width:100%"
+				value="#{productoBean.producto.fcDetalle}" required="true" />
 
-		<p:outputLabel for="txtPrecio" value="Precio: $" />
-		<p:inputText id="txtPrecio" value="#{productoBean.producto.fnPrecio}"
-			required="true" style="width:100%" />
+			<p:outputLabel for="txtPrecio" value="Precio con IVA: $" />
+			<p:inputText id="txtPrecio"
+				value="#{productoBean.producto.fnPrecioIva}" required="true"
+				style="width:100%" />
 
-		<p:outputLabel for="txtCategoria" value="Categoria:" />
-		<p:selectOneMenu id="txtCategoria" required="true" style="width:100%"
-			value="#{productoBean.producto.fiIdCatalogo}">
-			<f:selectItem itemLabel="Seleccione uno" itemValue="" />
-			<f:selectItems value="#{productoBean.listCategoriaProducto}" />
-		</p:selectOneMenu>
+			<p:outputLabel for="txtPrecioSinIva" value="Precio sin IVA: $" />
+			<p:inputText id="txtPrecioSinIva"
+				value="#{productoBean.producto.fnPrecioSinIva}" required="true"
+				style="width:100%" />
 
-		<p:outputLabel for="txtClasificacion" value="Clasificacion:" />
-		<p:selectOneMenu id="txtClasificacion" style="width:100%"
-			value="#{productoBean.producto.fiIdClasificacion}">
-			<f:selectItems value="#{productoBean.listClasificacionProducto}" />
-		</p:selectOneMenu>
+			<p:outputLabel for="txtCategoria" value="Categoria:" />
+			<p:selectOneMenu id="txtCategoria" required="true" style="width:100%"
+				value="#{productoBean.producto.fiIdCatalogo}">
+				<f:selectItem itemLabel="Seleccione uno" itemValue="" />
+				<f:selectItems value="#{productoBean.listCategoriaProducto}" />
+			</p:selectOneMenu>
 
-		<p:outputLabel for="txtTamanio" value="Tamaño:" />
-		<p:selectOneMenu id="txtTamanio" style="width:100%"
-			value="#{productoBean.producto.fiIdTamanio}">
-			<f:selectItems value="#{productoBean.listTamanioProducto}" />
-		</p:selectOneMenu>
+			<p:outputLabel for="txtClasificacion" value="Clasificacion:" />
+			<p:selectOneMenu id="txtClasificacion" style="width:100%"
+				value="#{productoBean.producto.fiIdClasificacion}">
+				<f:selectItems value="#{productoBean.listClasificacionProducto}" />
+			</p:selectOneMenu>
 
-		<p:outputLabel for="txtTalla" value="Talla:" />
-		<p:selectOneMenu id="txtTalla" style="width:100%"
-			value="#{productoBean.producto.fiIdTalla}">
-			<f:selectItems value="#{productoBean.listTallaProducto}" />
-		</p:selectOneMenu>
+			<p:outputLabel for="txtTamanio" value="Tamaño:" />
+			<p:selectOneMenu id="txtTamanio" style="width:100%"
+				value="#{productoBean.producto.fiIdTamanio}">
+				<f:selectItems value="#{productoBean.listTamanioProducto}" />
+			</p:selectOneMenu>
 
-		<p:outputLabel for="txtMaterial" value="Material:" />
-		<p:selectOneMenu id="txtMaterial" style="width:100%"
-			value="#{productoBean.producto.fiIdMaterial}">
-			<f:selectItems value="#{productoBean.listMaterialProducto}" />
-		</p:selectOneMenu>
+			<p:outputLabel for="txtTalla" value="Talla:" />
+			<p:selectOneMenu id="txtTalla" style="width:100%"
+				value="#{productoBean.producto.fiIdTalla}">
+				<f:selectItems value="#{productoBean.listTallaProducto}" />
+			</p:selectOneMenu>
 
-		<p:outputLabel for="txtMarca" value="Marca:" />
-		<p:selectOneMenu id="txtMarca" required="true" style="width:100%"
-			value="#{productoBean.producto.fiIdMarca}">
-			<f:selectItem itemLabel="Seleccione uno" itemValue="" />
-			<f:selectItems value="#{productoBean.listMarcaProducto}" />
-		</p:selectOneMenu>
+			<p:outputLabel for="txtMaterial" value="Material:" />
+			<p:selectOneMenu id="txtMaterial" style="width:100%"
+				value="#{productoBean.producto.fiIdMaterial}">
+				<f:selectItems value="#{productoBean.listMaterialProducto}" />
+			</p:selectOneMenu>
 
-		<p:outputLabel for="txtCantidad" value="Cantidad:" />
-		<p:inputText id="txtCantidad" style="width:100%"
-			value="#{productoBean.producto.fiNumPiezas}" required="true">
-			<f:convertNumber integerOnly="true" />
-		</p:inputText>
+			<p:outputLabel for="txtMarca" value="Marca:" />
+			<p:selectOneMenu id="txtMarca" required="true" style="width:100%"
+				value="#{productoBean.producto.fiIdMarca}">
+				<f:selectItem itemLabel="Seleccione uno" itemValue="" />
+				<f:selectItems value="#{productoBean.listMarcaProducto}" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="txtCantidad" value="Cantidad:" />
+			<p:inputText id="txtCantidad" style="width:100%"
+				value="#{productoBean.producto.fiNumPiezas}" required="true">
+				<f:convertNumber integerOnly="true" />
+			</p:inputText>
 
 
+			<f:facet name="footer">
+				<div align="center">
+					<p:commandButton value="Cancelar" immediate="true"
+						onclick="PF('dlg').hide();"
+						actionListener="#{productoBean.onCancelar()}" update="panelNuevoP" />
+					<p:commandButton value="Guardar"
+						actionListener="#{productoBean.onGuardar()}"
+						update="growl panelNuevoP" />
+				</div>
+			</f:facet>
+		</h:panelGrid>
 
-		<f:facet name="footer">
-			<div align="center">
-				<p:commandButton value="Cancelar" immediate="true" onclick="PF('dlg').hide();"
-					actionListener="#{productoBean.onCancelar()}" update="panelNuevoP" />
-				<p:commandButton value="Guardar"
-					actionListener="#{productoBean.onGuardar()}"
-					update="growl panelNuevoP" />
-			</div>
-		</f:facet>
-	</h:panelGrid>
-
-	<p:log />
+	</p:scrollPanel>
 </h:form>
 
 </html>

@@ -5,8 +5,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<!-- 	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:pe="http://primefaces.org/ui/extensions" -->
+
 
 
 <ui:composition>
@@ -41,17 +40,25 @@
 
 			<f:facet name="header">
 
-				<div align="left" style="display: inline;">
+				<div align="right">
+					Exportar
 					<h:commandLink immediate="true">
 						<p:graphicImage library="images" name="excel_16.png" width="24px;"
 							title="Excel" />
 						<p:dataExporter target="tablaProductos" type="xls"
 							fileName="Inventario" />
 					</h:commandLink>
-					Inventario
+					Agregar
+					<p:commandButton onclick="PF('dlg').show();" icon="ui-icon-plus"
+						title="Nuevo">
+					</p:commandButton>
+
 				</div>
+				<div align="center">Inventario</div>
 
 			</f:facet>
+
+
 
 			<p:ajax event="rowEdit" listener="#{productoBean.onRowEdit}"
 				update=":formInit:msgs :formInit:tablaProductos" />
@@ -99,7 +106,8 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Nombre" sortBy="#{producto.fcNombre}">
+			<p:column headerText="Nombre" sortBy="#{producto.fcNombre}"
+				style="width:30%">
 				<p:cellEditor>
 					<f:facet name="output">
 						<h:outputText value="#{producto.fcNombre}" />
@@ -121,14 +129,26 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Precio" sortBy="#{producto.fnPrecio}"
-				style="text-align:right">
+			<p:column headerText="Precio con IVA"
+				sortBy="#{producto.fnPrecioIva}" style="text-align:right">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="$#{producto.fnPrecio}" />
+						<h:outputText value="$#{producto.fnPrecioIva}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{producto.fnPrecio}" style="width:88%" />
+						<p:inputText value="#{producto.fnPrecioIva}" style="width:88%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Precio sin IVA"
+				sortBy="#{producto.fnPrecioSinIva}" style="text-align:right">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="$#{producto.fnPrecioSinIva}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{producto.fnPrecioSinIva}" style="width:88%" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -150,7 +170,8 @@
 						<h:outputText value="#{producto.estado}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{producto.estado}" style="width:88%" readonly="true"/>
+						<p:inputText value="#{producto.estado}" style="width:88%"
+							readonly="true" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -252,19 +273,13 @@
 			</p:column>
 
 
-			<f:facet name="footer">
-				<div align="right">
-					<p:commandButton onclick="PF('dlg').show();" icon="ui-icon-plus"
-						title="Nuevo">
-					</p:commandButton>
-				</div>
-			</f:facet>
+
 		</p:dataTable>
 
 
 
 		<p:dialog header="Nuevo Producto" widgetVar="dlg" modal="true"
-			resizable="false">
+			resizable="false" width="50%">
 			<ui:include src="nuevoProducto.xhtml" />
 
 		</p:dialog>
@@ -279,7 +294,7 @@
 
 					<h:outputText value="Codigo:" />
 					<h:outputText value="#{productoBean.selectedProducto.fcCodigo}" />
-					
+
 					<h:outputText value="CodigoSAT:" />
 					<h:outputText value="#{productoBean.selectedProducto.fcCodigoSAT}" />
 
@@ -295,8 +310,12 @@
 						style="border:none" disabled="true" cols="25" rows="5" />
 
 
-					<h:outputText value="Precio:" />
-					<h:outputText value="$#{productoBean.selectedProducto.fnPrecio}" />
+					<h:outputText value="Precio con IVA:" />
+					<h:outputText value="$#{productoBean.selectedProducto.fnPrecioIva}" />
+
+					<h:outputText value="Precio sin IVA:" />
+					<h:outputText
+						value="$#{productoBean.selectedProducto.fnPrecioSinIva}" />
 
 					<h:outputText value="Cantidad:" />
 					<h:outputText value="#{productoBean.selectedProducto.fiNumPiezas}" />

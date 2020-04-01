@@ -36,7 +36,7 @@ public class JavaPoiUtils {
 	public static void main(String args[]) throws IOException {
 
 		FileInputStream file = new FileInputStream(
-				new File("C:\\Users\\alury\\Documents\\Sistema MixOax\\Listas de Precios\\PRECIOS PAPELERIA.xlsx"));
+				new File("C:\\Users\\alury\\Documents\\Sistema MixOax\\Listas de Precios\\SINTEC.xlsx"));
 
 		// Crear el objeto que tendra el libro de Excel
 
@@ -60,15 +60,15 @@ public class JavaPoiUtils {
 		Row row;
 
 		StringBuilder sb;
-		int codigo = 0;
+		int codigo = 178;
 
 		// Recorremos todas las filas para mostrar el contenido de cada celda
 
 		while (rowIterator.hasNext()) {
 
 			sb = new StringBuilder();
-			sb.append("insert into mixoax_producto values (");
-			sb.append("LAST_INSERT_ID(), '");
+			sb.append("insert into mixoax_producto(fiIdProducto, fcCodigo, fcDetalle, fcNombre, fnPrecio, fiEstado, fcCodigoSAT) values (");
+			sb.append(codigo).append(", '");
 			sb.append(codigo).append("', ");
  			
 
@@ -88,12 +88,15 @@ public class JavaPoiUtils {
 				// Fecha, boolean, entero...
 
 				switch (celda.getCellType()) {
-
+				case Cell.CELL_TYPE_BLANK:
+					sb.append("'',");
+					break;
+				
 				case Cell.CELL_TYPE_NUMERIC:
 
 					if (DateUtil.isCellDateFormatted(celda)) {
 
-						if (j == 1 || j==2 || j==5) {
+						if (j == 1 || j==2 ) {
 							sb.append("'").append(celda.getDateCellValue()).append("',");
 						} else {
 							sb.append(celda.getDateCellValue()).append(",");
@@ -102,11 +105,11 @@ public class JavaPoiUtils {
 
 					} else {
 
-						if (j == 1 || j==2 || j==5) {
-							sb.append("'").append(celda.getNumericCellValue()).append("',");
-						} else {
+//						if (j == 1 || j==2 || j==5) {
+//							sb.append("'").append(celda.getNumericCellValue()).append("',");
+//						} else {
 							sb.append(celda.getNumericCellValue()).append(",");
-						}
+//						}
 
 						// System.out.println(celda.getNumericCellValue());
 
@@ -116,13 +119,12 @@ public class JavaPoiUtils {
 
 				case Cell.CELL_TYPE_STRING:
 
-					if (j == 1 || j==2 || j==5) {
+//					if (j == 1 || j==2 /*|| j==5*/) {
 						sb.append("'").append(celda.getStringCellValue()).append("',");
-					} else {
-						sb.append(celda.getStringCellValue()).append(",");
-					}
+//					} else {
+//						sb.append(celda.getStringCellValue()).append(",");
+//					}
 
-					// System.out.println(celda.getStringCellValue());
 
 					break;
 

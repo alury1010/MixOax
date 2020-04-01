@@ -13,9 +13,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
-import org.springframework.web.context.annotation.SessionScope;
+import org.primefaces.model.UploadedFile;
 
 import com.javapuebla.bd.domain.Catalogo;
 import com.javapuebla.bd.domain.Customer;
@@ -61,6 +62,7 @@ public class ProductoBean implements Serializable {
 	private List<SelectItem> listMarcaProducto;
 
 	private List<Catalogo> listaCatalogo;
+	private UploadedFile file;
 
 	// private SelectItem selectedMarca;
 	// private SelectItem selectedMaterial;
@@ -202,11 +204,11 @@ public class ProductoBean implements Serializable {
 	public void onCancelar() {
 		this.resetProducto();
 		System.out.println("entro a onCancelar");
-		
-//		RequestContext rc = RequestContext.getCurrentInstance();
-//
-//		rc.update("panelNuevoP formInit");
-//		rc.execute("PF('dlg').hide();");
+
+		// RequestContext rc = RequestContext.getCurrentInstance();
+		//
+		// rc.update("panelNuevoP formInit");
+		// rc.execute("PF('dlg').hide();");
 	}
 
 	public void resetProducto() {
@@ -274,7 +276,17 @@ public class ProductoBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public void upload() {
+		if (file != null) {
+			FacesMessage message = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
 
+	public void handleFileUpload(FileUploadEvent event) {
+		FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
 	public Producto getNuevoProducto() {
 		return new Producto();
@@ -432,6 +444,14 @@ public class ProductoBean implements Serializable {
 	 */
 	public void setRegistrosFiltrados(List<Producto> registrosFiltrados) {
 		this.registrosFiltrados = registrosFiltrados;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
 	}
 
 }
