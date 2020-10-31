@@ -23,12 +23,16 @@ public class ProductoDao implements IProductoDao, Serializable {
 		SqlSession sqlSession = MyBatisSqlSessionFactory.openSession();
 		try {
 			ProductoMapper productoMapper = sqlSession.getMapper(ProductoMapper.class);
-			List<Producto> listProductos= productoMapper.obtenerProductos();
-			for(Producto registro : listProductos) {
-				registro.setEstado(registro.getFiEstado() == 0 ? "Agotado":"Existente");
+			List<Producto> listProductos = productoMapper.obtenerProductos();
+			for (Producto registro : listProductos) {
+				registro.setEstado(registro.getFiEstado() == 0 ? "Agotado" : "Existente");
 			}
 			return listProductos;
-		} finally {
+		}catch (Exception e) {
+			System.err.print(e.getMessage());
+			return null;
+		} 
+		finally {
 			sqlSession.close();
 		}
 	}
@@ -79,7 +83,7 @@ public class ProductoDao implements IProductoDao, Serializable {
 		try {
 			ProductoMapper productoMapper = sqlSession.getMapper(ProductoMapper.class);
 			Producto registro = productoMapper.obtenerProductoById(producto);
-			registro.setEstado(registro.getFiEstado() == 0 ? "Agotado":"Existente");
+			registro.setEstado(registro.getFiEstado() == 0 ? "Agotado" : "Existente");
 			return productoMapper.obtenerProductoById(producto);
 		} finally {
 			sqlSession.close();

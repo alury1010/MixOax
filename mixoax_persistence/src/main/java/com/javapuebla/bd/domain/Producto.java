@@ -162,6 +162,31 @@ public class Producto {
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.fiIdProducto == null) ? 0 : this.fiIdProducto.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Producto other = (Producto) obj;
+		if (this.fiIdProducto == null) {
+			if (other.fiIdProducto != null)
+				return false;
+		} else if (!this.fiIdProducto.equals(other.fiIdProducto))
+			return false;
+		return true;
+	}
+
 	/**
 	 * @return the fiIdProducto
 	 */
