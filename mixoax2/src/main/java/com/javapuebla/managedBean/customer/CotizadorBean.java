@@ -9,10 +9,11 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
+
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -20,7 +21,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TransferEvent;
@@ -47,14 +47,26 @@ public class CotizadorBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		System.out.println("entro a postconstruct CotizadorBean");
+		if (this.productosTarget == null) {
+			this.productosTarget = new ArrayList<Producto>();
+		} else {
+			this.productosTarget.clear();
+		}
+
+		if (this.productosSource == null) {
+			this.productosSource = new ArrayList<Producto>();
+			initDualList();
+		}
+
+		this.setTotalImporte(new BigDecimal(0));
+
+	}
+
+	public void initDualList() {
 		try {
 			this.productosSource = this.productoService.obtenerProductos();
-			this.productosTarget = new ArrayList<Producto>();
-
 			setProductos(new DualListModel<Producto>(productosSource, productosTarget));
-
-			this.setTotalImporte(new BigDecimal(0));
-
 		} catch (Exception e) {
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Error", e.getMessage()));
@@ -74,7 +86,7 @@ public class CotizadorBean implements Serializable {
 
 		this.totalImporte = new BigDecimal(0);
 
-		System.out.println("productos en tabla" + this.productos.getTarget().size());
+		System.out.println("productos en tabla " + this.productos.getTarget().size());
 
 		this.productosTarget = this.productos.getTarget();
 
@@ -127,7 +139,6 @@ public class CotizadorBean implements Serializable {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		String date = simpleDateFormat.format(new Date());
 		newRow.createCell(4).setCellValue(date);
-
 
 		sheet.shiftRows(1, sheet.getLastRowNum(), 1, true, false);
 		HSSFRow newRow2 = sheet.createRow(1);
@@ -209,6 +220,16 @@ public class CotizadorBean implements Serializable {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public void limpiar() {
+		System.out.println("Entro a limpiar");
+		this.productosTarget.clear();
+
+		// setProductos(new DualListModel<Producto>(productosSource, productosTarget));
+		this.productos.setSource(this.productosSource);
+		this.productos.setTarget(this.productosTarget);
+		this.setTotalImporte(new BigDecimal(0));
 	}
 
 }

@@ -7,85 +7,85 @@
 <!-- xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:pe="http://primefaces.org/ui/extensions" -->
 
-<h:form id="form">
+<h:form id="form2">
 	<p:growl id="growl" showDetail="true" life="3000" />
 	<p:scrollPanel style="height:600px;" mode="native">
-		<p:focus context="panelNuevoP" />
-		<h:panelGrid columns="2" cellpadding="5" id="panelNuevoP">
+		<p:focus context="panelEditarP" />
+		<h:panelGrid columns="2" cellpadding="5" id="panelEditarP">
 
 
 			<p:outputLabel for="txtCodigo" value="Codigo:"
 				style="text-alignt:right" />
-			<p:inputText id="txtCodigo" value="#{productoBean.producto.fcCodigo}"
+			<p:inputText id="txtCodigo" value="#{productoBean.selectedProducto.fcCodigo}"
 				style="width:100%" required="true">
 			</p:inputText>
 
 			<p:outputLabel for="txtCodigoSAT" value="CodigoSAT:"
 				style="text-alignt:right" />
 			<p:inputText id="txtCodigoSAT"
-				value="#{productoBean.producto.fcCodigoSAT}" style="width:100%"
+				value="#{productoBean.selectedProducto.fcCodigoSAT}" style="width:100%"
 				required="true">
 			</p:inputText>
 
 			<p:outputLabel for="txtNombre" value="Nombre:" />
-			<p:inputText id="txtNombre" value="#{productoBean.producto.fcNombre}"
+			<p:inputText id="txtNombre" value="#{productoBean.selectedProducto.fcNombre}"
 				style="width:100%" required="true" />
 
 			<p:outputLabel for="txtDetalle" value="Detalle:" />
 			<p:inputTextarea id="txtDetalle" maxlength="250" style="width:100%"
-				value="#{productoBean.producto.fcDetalle}" required="true" />
+				value="#{productoBean.selectedProducto.fcDetalle}" required="true" />
 
 			<p:outputLabel for="txtPrecio" value="Precio con IVA: $" />
 			<p:inputText id="txtPrecio"
-				value="#{productoBean.producto.fnPrecioIva}" required="true"
+				value="#{productoBean.selectedProducto.fnPrecioIva}" required="true"
 				style="width:100%" />
 
 			<p:outputLabel for="txtPrecioSinIva" value="Precio sin IVA: $" />
 			<p:inputText id="txtPrecioSinIva"
-				value="#{productoBean.producto.fnPrecioSinIva}" required="true"
+				value="#{productoBean.selectedProducto.fnPrecioSinIva}" required="true"
 				style="width:100%" />
 
 			<p:outputLabel for="txtCategoria" value="Categoria:" />
 			<p:selectOneMenu id="txtCategoria" required="true" style="width:100%"
-				value="#{productoBean.producto.fiIdCatalogo}">
+				value="#{productoBean.selectedProducto.fiIdCatalogo}">
 				<f:selectItem itemLabel="Seleccione uno" itemValue="" />
 				<f:selectItems value="#{productoBean.listCategoriaProducto}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="txtClasificacion" value="Clasificacion:" />
 			<p:selectOneMenu id="txtClasificacion" style="width:100%"
-				value="#{productoBean.producto.fiIdClasificacion}">
+				value="#{productoBean.selectedProducto.fiIdClasificacion}">
 				<f:selectItems value="#{productoBean.listClasificacionProducto}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="txtTamanio" value="Tamaño:" />
 			<p:selectOneMenu id="txtTamanio" style="width:100%"
-				value="#{productoBean.producto.fiIdTamanio}">
+				value="#{productoBean.selectedProducto.fiIdTamanio}">
 				<f:selectItems value="#{productoBean.listTamanioProducto}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="txtTalla" value="Talla:" />
 			<p:selectOneMenu id="txtTalla" style="width:100%"
-				value="#{productoBean.producto.fiIdTalla}">
+				value="#{productoBean.selectedProducto.fiIdTalla}">
 				<f:selectItems value="#{productoBean.listTallaProducto}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="txtMaterial" value="Material:" />
 			<p:selectOneMenu id="txtMaterial" style="width:100%"
-				value="#{productoBean.producto.fiIdMaterial}">
+				value="#{productoBean.selectedProducto.fiIdMaterial}">
 				<f:selectItems value="#{productoBean.listMaterialProducto}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="txtMarca" value="Marca:" />
 			<p:selectOneMenu id="txtMarca" required="true" style="width:100%"
-				value="#{productoBean.producto.fiIdMarca}">
+				value="#{productoBean.selectedProducto.fiIdMarca}">
 				<f:selectItem itemLabel="Seleccione uno" itemValue="" />
 				<f:selectItems value="#{productoBean.listMarcaProducto}" />
 			</p:selectOneMenu>
 
 			<p:outputLabel for="txtCantidad" value="Cantidad:" />
 			<p:inputText id="txtCantidad" style="width:100%"
-				value="#{productoBean.producto.fiNumPiezas}" required="true">
+				value="#{productoBean.selectedProducto.fiNumPiezas}" required="true">
 				<f:convertNumber integerOnly="true" />
 			</p:inputText>
 
@@ -94,10 +94,10 @@
 				<div align="center">
 					<p:commandButton value="Cancelar" immediate="true"
 						onclick="PF('dlg').hide();"
-						actionListener="#{productoBean.onCancelar()}" update="panelNuevoP" />
+						actionListener="#{productoBean.onCancelar()}" update="panelEditarP" />
 					<p:commandButton value="Guardar"
-						actionListener="#{productoBean.onGuardar()}"
-						update="growl panelNuevoP" />
+						actionListener="#{productoBean.onRowEdit()}"
+						update="growl panelEditarP" />
 				</div>
 			</f:facet>
 		</h:panelGrid>

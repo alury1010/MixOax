@@ -1,6 +1,8 @@
 package com.javapuebla.managedBean.security;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,6 +18,8 @@ public class LoginBean {
 	private String userName;
 
 	private String password;
+	
+	private String mensaje;
 
 	@Inject
 	// representa lo que se configuro en el security-config.xml
@@ -29,9 +33,14 @@ public class LoginBean {
 			Authentication result = authenticationManager.authenticate(request);
 			SecurityContextHolder.getContext().setAuthentication(result);
 		} catch (AuthenticationException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return "/sysmixoax_pages/sysmixoax_unsecure/login";
+			System.out.println("Credenciales incorrectas reintente de nuevo");
+			this.setUserName("");
+			this.setPassword("");
+			this.setMensaje("Credenciales incorrectas reintente de nuevo.");
+			
+			FacesMessage msg = new FacesMessage("Credenciales incorrectas reintente de nuevo.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return "/sysmixoax_pages/sysmixoax_unsecure/login2";
 		}
 
 		return "/sysmixoax_pages/sysmixoax_secure/bienvenida";
@@ -58,5 +67,13 @@ public class LoginBean {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getMensaje() {
+		return mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
 	}
 }

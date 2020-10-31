@@ -1,45 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:sec="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context-4.2.xsd
-	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-4.2.xsd"
->
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/security  
+    http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:context="http://www.springframework.org/schema/context" xmlns:sec="http://www.springframework.org/schema/security" 
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd" -->
+
 	<!-- le digo cual es lo que tiene permitido cada quien -->
-	<sec:http auto-config="true" use-expressions="true">
-		<sec:intercept-url pattern="/sysmixoax_pages/sysmixoax_secure/**" access="hasRole('ROLE_ADMIN')"/> <!-- permitAll -->
-		<sec:intercept-url pattern="/sysmixoax_pages/sysmixoax_unsecure/**" access="permitAll"/>
-		<sec:intercept-url pattern="/sysmixoax_pages/**" access="permitAll"/>
-	
+	<http auto-config="true" use-expressions="true">
+		<intercept-url
+			pattern="/sysmixoax_pages/sysmixoax_secure/**"
+			access="hasRole('ROLE_ADMIN')" /> <!-- permitAll -->
+		<!-- <intercept-url pattern="/sysmixoax_pages/sysmixoax_unsecure/**" access="permitAll"/> -->
+		<!-- <intercept-url
+			pattern="/sysmixoax_pages/sysmixoax_unsecure/**"
+			access="hasAnyRole('USER', 'ADMIN')" /> -->
+		<!-- <intercept-url pattern="/sysmixoax_pages/**" access="permitAll"/> -->
+
 		<!-- cambio la pagina de logeo de security por un o personalizado -->
-		<sec:form-login login-page="/sysmixoax_pages/sysmixoax_unsecure/login.xhtml"/>
+		<form-login
+			login-page="/sysmixoax_pages/sysmixoax_unsecure/login2.xhtml"
+			default-target-url="/sysmixoax_pages/sysmixoax_unsecure" />
 		<!-- que porciond e la session tiene que borra cuando le diga logout -->
-		<sec:logout
-			invalidate-session="true"
-			delete-cookies="true"
-			logout-success-url="/"
-		/>
-	</sec:http>
-	<!-- cuando yo quiero autenticarme tiene que ir al data Source y ejecutar esas consultas -->
+		<logout invalidate-session="true" delete-cookies="true"
+			logout-success-url="/" />
+		<access-denied-handler
+			error-page="/sysmixoax_pages/sysmixoax_unsecure" />
+	</http>
+	
+	<!-- cuando yo quiero autenticarme tiene que ir al data Source y ejecutar 
+		esas consultas -->
 	<!-- esto no tiene que ver con mybatis -->
 	<!-- el data source se tiene que definir en el applicationContext.xml -->
-	<sec:authentication-manager alias="authenticationManager">
-		<sec:authentication-provider >
-			<sec:jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query=
-				"select fcUsername, fcPassword, fiEnable from mixoax_users where fcUsername=?"
-				authorities-by-username-query=
-				"select fcUsername, fcRole from mixoax_user_roles where fcUsername=?"
-			/>
-		</sec:authentication-provider>	
-	</sec:authentication-manager>
+	<authentication-manager
+		alias="authenticationManager">
+		<authentication-provider>
+			<user-service>
+				<user name="yesica" password="{noop}yesica"
+					authorities="hasRole(ROLE_ADMIN)" />
+			</user-service>
+			<!-- <jdbc-user-service data-source-ref="dataSource" users-by-username-query= 
+				"select fcUsername, fcPassword, fiEnable from mixoax_users where fcUsername=?" 
+				authorities-by-username-query= "select fcUsername, fcRole from mixoax_user_roles 
+				where fcUsername=?" /> -->
+		</authentication-provider>
+	</authentication-manager>
 
 
-</beans>
+</beans:beans>

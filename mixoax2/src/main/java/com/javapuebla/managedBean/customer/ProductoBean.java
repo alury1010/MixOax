@@ -6,11 +6,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
+
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.faces.view.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -19,9 +20,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
 import com.javapuebla.bd.domain.Catalogo;
-import com.javapuebla.bd.domain.Customer;
 import com.javapuebla.bd.domain.Producto;
-import com.javapuebla.bo.customer.CustomerBo;
 import com.javapuebla.service.customer.CustomerService;
 import com.javapuebla.service.customer.ICatalogoService;
 import com.javapuebla.service.customer.IProductoService;
@@ -35,8 +34,7 @@ public class ProductoBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	CustomerBo userBo;
+	
 
 	@Inject
 	CustomerService customerService;
@@ -47,7 +45,6 @@ public class ProductoBean implements Serializable {
 	@Inject
 	ICatalogoService catalogoService;
 
-	transient List<Customer> customerList;
 
 	private Producto producto;
 	private Producto selectedProducto;
@@ -73,7 +70,9 @@ public class ProductoBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		System.out.println("entro a postconstruct ProductoBean");
 		this.producto = new Producto();
+		this.selectedProducto = new Producto();
 		this.listCategoriaProducto = new ArrayList<SelectItem>();
 		this.listClasificacionProducto = new ArrayList<SelectItem>();
 		this.listTamanioProducto = new ArrayList<SelectItem>();
@@ -95,8 +94,10 @@ public class ProductoBean implements Serializable {
 				for (Producto p : this.registroTabla) {
 					producto = new Producto();
 					producto.copy(p);
+					producto.initNombrePropiedades();
 					this.registrosFiltrados.add(producto);
 				}
+
 			}
 
 			for (Producto prod : this.registroTabla) {
@@ -212,28 +213,34 @@ public class ProductoBean implements Serializable {
 	}
 
 	public void resetProducto() {
+		System.out.println("resetProducto:::::::::");
 		this.producto = new Producto();
+//		this.selectedProducto = new Producto();
 	}
 
-	public void onRowEdit(RowEditEvent event) {
+	public void onRowEdit(/*RowEditEvent event*/) {
 
 		try {
-			Producto producto = (Producto) event.getObject();
+			System.out.println("onRowEdit");
 
-			this.producto.setFiEstado(1);
-			System.out.println("producto a editar:::::::::" + producto.toString());
-			this.productoService.actualizarProducto(producto);
+			this.productoService.actualizarProducto(this.selectedProducto);
 			Producto aux = this.productoService.obtenerProductoById(producto);
-			producto.copy(aux);
-			producto.initNombrePropiedades();
+			this.selectedProducto.copy(aux);
+			this.selectedProducto.initNombrePropiedades();
+			
+//			this.selectedProducto.copy(aux);
+//			this.selectedProducto.initNombrePropiedades();
+			
 			// RequestContext rc = RequestContext.getCurrentInstance();
 			// rc.update("tablaProductos");
 
-			FacesMessage msg = new FacesMessage("Producto Editado Exitosamente", this.producto.getFcCodigo());
+			FacesMessage msg = new FacesMessage("Producto Editado Exitosamente", this.selectedProducto.getFcCodigo());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 		} catch (Exception e) {
 
+			System.err.print(e.getMessage());
+			
 			FacesMessage msg = new FacesMessage("Fallo al guardar los cambios", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
@@ -246,35 +253,48 @@ public class ProductoBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void eliminarProducto(Producto p) {
+	public void eliminarProducto() {
 
 		try {
-			this.selectedProducto = p;
+			// this.selectedProducto = p;
+			if (this.selectedProducto != null) {
+				System.out.println("eliminar producto" + this.selectedProducto.toString());
+				this.productoService.eliminarProducto(this.selectedProducto.getFiIdProducto());
 
-			System.out.println("eliminar producto" + this.selectedProducto.toString());
-			this.productoService.eliminarProducto(this.selectedProducto.getFiIdProducto());
+				this.registroTabla.remove(this.selectedProducto);
 
-			this.registroTabla.remove(this.selectedProducto);
+				if (this.registrosFiltrados != null) {
+					this.registrosFiltrados.remove(this.selectedProducto);
+				}
 
-			RequestContext rc = RequestContext.getCurrentInstance();
-			rc.update("formInit");
+			
 
-			FacesMessage msg = new FacesMessage("Producto Eliminado Exitosamente", this.selectedProducto.getFcCodigo());
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesMessage msg = new FacesMessage("Producto Eliminado Exitosamente",
+						this.selectedProducto.getFcCodigo());
+				FacesContext.getCurrentInstance().addMessage(null, msg);
 
-			this.selectedProducto = null;
+				this.selectedProducto = null;
+				
+				RequestContext rc = RequestContext.getCurrentInstance();
+				rc.update("formInit");
+			} else {
+
+				FacesMessage msg = new FacesMessage("Seleccione un registro para continuar");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
 
 		} catch (Exception e) {
+			System.out.println("eliminar producto" + e.getMessage());
 			FacesMessage msg = new FacesMessage("Falló al eliminar el producto de la lista", e.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 
 		}
 	}
 
-	public void onRowSelect(SelectEvent event) {
-		FacesMessage msg = new FacesMessage("Car Selected", ((Producto) event.getObject()).getFcCodigo());
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
+//	public void onRowSelect(SelectEvent event) {
+//		FacesMessage msg = new FacesMessage("Producto Seleccionado", ((Producto) event.getObject()).getFcCodigo());
+//		FacesContext.getCurrentInstance().addMessage(null, msg);
+//	}
 
 	public void upload() {
 		if (file != null) {
@@ -453,5 +473,31 @@ public class ProductoBean implements Serializable {
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
+
+	// public boolean globalFilterFunction(Object value, Object filter, Locale
+	// locale) {
+	// String filterText = (filter == null) ? null :
+	// filter.toString().trim().toLowerCase();
+	// if (filterText == null || filterText.equals("")) {
+	// return true;
+	// }
+	// int filterInt = getInteger(filterText);
+	//
+	// Producto producto = (Producto) value;
+	// System.out.println(producto.toString());
+	// this.registrosFiltrados.add(producto);
+	// return producto.getFcCodigo().toLowerCase().contains(filterText)
+	// || producto.getFcNombre().toLowerCase().contains(filterText)
+	// || producto.getFcMarca().toLowerCase().contains(filterText);
+	//
+	// }
+	//
+	// private int getInteger(String string) {
+	// try {
+	// return Integer.valueOf(string);
+	// } catch (NumberFormatException ex) {
+	// return 0;
+	// }
+	// }
 
 }

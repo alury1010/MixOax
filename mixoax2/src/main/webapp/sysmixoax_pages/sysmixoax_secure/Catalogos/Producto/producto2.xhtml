@@ -30,11 +30,10 @@
 }
 </style>
 		<p:growl id="msgs" showDetail="true" />
-
+		<!-- selection="#{productoBean.selectedProducto}" selectionMode="single" -->
 
 		<p:dataTable var="producto" value="#{productoBean.registroTabla}"
-			id="tablaProductos" rowKey="#{producto.fiIdProducto}" editable="true"
-			selection="#{productoBean.selectedProducto}" selectionMode="single"
+			id="tablaProductos" rowKey="#{producto.fiIdProducto}"
 			widgetVar="productosTabla" rows="15" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,15,20,50"
@@ -53,8 +52,9 @@
 							fileName="Inventario" />
 					</h:commandLink>
 					Agregar
-					<p:commandButton onclick="PF('dlg').show();" icon="ui-icon-plus"
-						title="Nuevo">
+					<p:commandButton oncomplete="PF('dlg').show();" icon="ui-icon-plus"
+						immediate="true" actionListener="#{productoBean.resetProducto()}"
+						update=":formInit:form:panelNuevoP" title="Nuevo">
 					</p:commandButton>
 
 				</div>
@@ -64,212 +64,137 @@
 
 
 
-			<p:ajax event="rowEdit" listener="#{productoBean.onRowEdit}"
+			<!-- 	<p:ajax event="rowEdit" listener="#{productoBean.onRowEdit}"
 				update=":formInit:msgs :formInit:tablaProductos @this" />
 			<p:ajax event="rowEditCancel" listener="#{productoBean.onRowCancel}"
-				update=":formInit:msgs" />
+				update=":formInit:msgs" /> -->
 
 
 
 
 			<p:column headerText="Codigo" sortBy="#{producto.fcCodigo}"
 				filterBy="#{producto.fcCodigo}" filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcCodigo}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText id="modelInput" value="#{producto.fcCodigo}"
-							style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcCodigo}" />
+
 			</p:column>
 
 			<p:column headerText="CodigoSAT" sortBy="#{producto.fcCodigoSAT}">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcCodigoSAT}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.fcCodigoSAT}" style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcCodigoSAT}" />
+
 			</p:column>
 
 			<p:column headerText="Marca" filterBy="#{producto.fcMarca}"
 				filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcMarca}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu required="true" value="#{producto.fiIdMarca}"
-							style="width:100%">
-							<f:selectItems value="#{productoBean.listMarcaProducto}" />
-						</p:selectOneMenu>
 
-					</f:facet>
-				</p:cellEditor>
+				<h:outputText value="#{producto.fcMarca}" />
+
+
+
 			</p:column>
 
 			<p:column headerText="Nombre" sortBy="#{producto.fcNombre}"
 				style="width:20%" filterBy="#{producto.fcNombre}"
 				filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcNombre}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.fcNombre}" style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcNombre}" />
 			</p:column>
 
 			<p:column headerText="Detalle">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcDetalle}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.fcDetalle}" style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcDetalle}" />
+
 			</p:column>
 
 			<p:column headerText="Precio con IVA"
 				sortBy="#{producto.fnPrecioIva}" style="text-align:right">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="$#{producto.fnPrecioIva}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.fnPrecioIva}" style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="$#{producto.fnPrecioIva}" />
+
 			</p:column>
 
 			<p:column headerText="Precio sin IVA"
 				sortBy="#{producto.fnPrecioSinIva}" style="text-align:right">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="$#{producto.fnPrecioSinIva}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.fnPrecioSinIva}" style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="$#{producto.fnPrecioSinIva}" />
+
 			</p:column>
 
 			<p:column headerText="Cantidad" sortBy="#{producto.fiNumPiezas}">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fiNumPiezas}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.fiNumPiezas}" style="width:88%" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fiNumPiezas}" />
 			</p:column>
 
 			<p:column headerText="Estado" sortBy="#{producto.estado}">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.estado}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{producto.estado}" style="width:88%"
-							readonly="true" />
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.estado}" />
+
 			</p:column>
 
 			<p:column headerText="Categoria" filterBy="#{producto.fcCatalogo}"
 				filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcCatalogo}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu required="true" value="#{producto.fiIdCatalogo}"
-							style="width:100%">
-							<f:selectItems value="#{productoBean.listCategoriaProducto}" />
-						</p:selectOneMenu>
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcCatalogo}" />
+
 			</p:column>
 
 
 
 			<p:column headerText="Clasificacion" style="width:10%"
 				filterBy="#{producto.fcClasificacion}" filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcClasificacion}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu id="txtCategoria" required="true"
-							value="#{producto.fiIdClasificacion}" style="width:100%">
-							<f:selectItems value="#{productoBean.listClasificacionProducto}" />
-						</p:selectOneMenu>
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcClasificacion}" />
+
 			</p:column>
 
 			<p:column headerText="Tamaño">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcTamanio}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu required="true" value="#{producto.fiIdTamanio}"
-							style="width:100%">
-							<f:selectItems value="#{productoBean.listTamanioProducto}" />
-						</p:selectOneMenu>
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcTamanio}" />
+
 			</p:column>
 
 			<p:column headerText="Talla">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcTalla}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu required="true" value="#{producto.fiIdTalla}"
-							style="width:100%">
-							<f:selectItems value="#{productoBean.listTallaProducto}" />
-						</p:selectOneMenu>
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcTalla}" />
+
 			</p:column>
 
 			<p:column headerText="Material" style="width:10%"
 				filterBy="#{producto.fcMaterial}" filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{producto.fcMaterial}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:selectOneMenu required="true" value="#{producto.fiIdMaterial}"
-							style="width:100%">
-							<f:selectItems value="#{productoBean.listMaterialProducto}" />
-						</p:selectOneMenu>
-					</f:facet>
-				</p:cellEditor>
+
+				<h:outputText value="#{producto.fcMaterial}" />
+
 			</p:column>
 
 
 
-			<p:column style="width:32px" exportable="false">
+			<!-- 		<p:column style="width:32px" exportable="false">
 				<p:rowEditor />
-			</p:column>
+			</p:column> -->
 
-			<p:column style="width:32px;text-align: center" exportable="false">
-				<p:commandButton update="formInit" immediate="true"
-					icon="ui-icon-close" title="Eliminar"
-					actionListener="#{productoBean.eliminarProducto()}">
+			<!-- 			<p:column style="width:32px;text-align: center" exportable="false">
+				<p:commandButton update=":formInit:form2:panelEditarP"
+					 oncomplete="PF('dlgEdit').show();" icon="ui-icon-edit" 
+					title="Editar">
 					<f:setPropertyActionListener value="#{producto}"
 						target="#{productoBean.selectedProducto}" />
+				</p:commandButton>
+
+			</p:column> -->
+
+			<p:column style="width:32px;text-align: center" exportable="false">
+				<p:commandButton immediate="true" icon="ui-icon-close"
+					title="Eliminar" update="formInit" 
+					actionListener="#{productoBean.eliminarProducto()}">
+
+					<f:setPropertyActionListener value="#{producto}"
+						target="#{productoBean.selectedProducto}" />
+
+					<p:confirm header="Confirmacion"
+						message="¿Esta seguro de eliminar el producto #{producto.fcNombre}?"
+						icon="pi pi-exclamation-triangle" />
+
 				</p:commandButton>
 			</p:column>
 
@@ -296,6 +221,12 @@
 
 		</p:dialog>
 
+		<!-- <p:dialog header="Editar Producto" widgetVar="dlgEdit" modal="true"
+			resizable="false" width="50%">
+			<ui:include src="editarProducto.xhtml" />
+
+		</p:dialog>
+ -->
 		<p:dialog header="Ver Producto" widgetVar="dlgVerDetalles"
 			modal="true" resizable="false">
 			<h:form id="form_verProducto">
@@ -356,27 +287,13 @@
 			</h:form>
 		</p:dialog>
 
-		<p:dialog message="Are you sure about destroying the world?"
-			header="Initiating destroy process" severity="alert"
-			widgetVar="dglEliminar">
-			<h:form>
-				<p:commandButton value="Yes Sure"
-					actionListener="#{productoBean.eliminarProducto()}"
-					update=":formInit:tablaProductos"
-					oncomplete="PF('dglEliminar').hide()" type="button"
-					immediate="true">
 
-					<f:setPropertyActionListener value="#{producto}"
-						target="#{productoBean.selectedProducto}" />
-
-				</p:commandButton>
-
-				<p:commandButton value="Not Yet" onclick="PF('dglEliminar').hide();"
-					type="button" />
-			</h:form>
-		</p:dialog>
-
-
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Si" type="button"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
 
 
 	</h:form>
