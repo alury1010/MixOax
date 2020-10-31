@@ -22,6 +22,7 @@ public class ProductoService implements IProductoService, Serializable {
 
 	public List<Producto> obtenerProductos() throws Exception {
 		try {
+			System.out.println("Entró al servicio para consultar productos ");
 			return productoDao.obtenerProductos();
 		} catch (Exception e) {
 			throw e;
