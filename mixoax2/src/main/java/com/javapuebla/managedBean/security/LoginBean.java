@@ -18,7 +18,7 @@ public class LoginBean {
 	private String userName;
 
 	private String password;
-	
+
 	private String mensaje;
 
 	@Inject
@@ -28,22 +28,33 @@ public class LoginBean {
 	public String login() {
 		try {
 			System.out.println("usr: " + this.getUserName() + " pass:" + this.getPassword());
-			
+
 			Authentication request = new UsernamePasswordAuthenticationToken(this.getUserName(), this.getPassword());
 			Authentication result = authenticationManager.authenticate(request);
+						
 			SecurityContextHolder.getContext().setAuthentication(result);
 		} catch (AuthenticationException e) {
 			System.out.println("Credenciales incorrectas reintente de nuevo");
 			this.setUserName("");
 			this.setPassword("");
 			this.setMensaje("Credenciales incorrectas reintente de nuevo.");
-			
+
 			FacesMessage msg = new FacesMessage("Credenciales incorrectas reintente de nuevo.");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return "/sysmixoax_pages/sysmixoax_unsecure/login2";
 		}
 
 		return "/sysmixoax_pages/sysmixoax_secure/bienvenida";
+	}
+
+	public String logout() {
+		SecurityContextHolder.clearContext();
+		System.out.println("+++++++SecurityContextHolder.clearContext();+++++++++++++++++++++++++++++++++++");
+		
+		FacesMessage msg = new FacesMessage("Ha cerrado sesion correctamente.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+		return "/sysmixoax_pages/sysmixoax_unsecure/logout";
 	}
 
 	/**

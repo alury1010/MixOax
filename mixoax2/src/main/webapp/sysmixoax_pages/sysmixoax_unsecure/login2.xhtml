@@ -6,13 +6,27 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
 	<title>Login</title>
-	<link href="./resources/css/default.css" rel="stylesheet"
-		type="text/css" />
+	<!-- <link href="../../resources/css/default.css" rel="stylesheet"
+		type="text/css" /> -->
+
+<style type="text/css">
+	.centerDiv {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	}
+</style>
+
 </h:head>
 <h:body>
-	<h:form>
+	<h:form id="formLogin">
 
-		<p:growl id="msgLogin"/>
+		<p:growl id="msgLogin" />
 
 		<div class="centerDiv" style="width: 400px">
 			<p:panel>
@@ -22,22 +36,27 @@
 						name="outTxtUserNameId" />
 					<h:inputText id="userName" value="#{loginMgmtBean.userName}"
 						required="true" label="login"
-						requiredMessage="escribe un username" />
+						requiredMessage="escribe un username" name="username"/>
 					<h:outputLabel id="outlblUserNameId" for="userName"
 						name="outlblUsernameNm" />
 
 					<h:outputText id="outTxtPasswordNameId" value="Contraseña:"
 						name="outTxtPasswordNameId" />
-					<h:inputSecret id="password" required="true"
+					<h:inputSecret id="password" required="true" autocomplete="true"
 						value="#{loginMgmtBean.password}"
-						requiredMessage="escribe una contraseña" name="inTxtPasswordNm" />
+						requiredMessage="escribe una contraseña" name="password" />
 					<h:outputLabel id="outlblPasswordNameId" for="password"
 						name="outlblPasswordnameNm" />
 				</h:panelGrid>
-				<p:commandButton id="btnLoginId" value="Iniciar Sesion" action="#{loginMgmtBean.login}"
-					ajax="false" update="@form"/>
+				<p:commandButton id="btnLoginId" value="Iniciar Sesion"
+					action="#{loginMgmtBean.login}" ajax="false" update="@form" />
 			</p:panel>
 		</div>
+		
+		<input type="hidden" 
+        name="${_csrf.parameterName}"
+        value="${_csrf.token}" />
+        
 	</h:form>
 </h:body>
 </html>

@@ -63,15 +63,6 @@
 			</f:facet>
 
 
-
-			<!-- 	<p:ajax event="rowEdit" listener="#{productoBean.onRowEdit}"
-				update=":formInit:msgs :formInit:tablaProductos @this" />
-			<p:ajax event="rowEditCancel" listener="#{productoBean.onRowCancel}"
-				update=":formInit:msgs" /> -->
-
-
-
-
 			<p:column headerText="Codigo" sortBy="#{producto.fcCodigo}"
 				filterBy="#{producto.fcCodigo}" filterMatchMode="contains">
 
@@ -168,21 +159,6 @@
 			</p:column>
 
 
-
-			<!-- 		<p:column style="width:32px" exportable="false">
-				<p:rowEditor />
-			</p:column> -->
-
-			<!-- 			<p:column style="width:32px;text-align: center" exportable="false">
-				<p:commandButton update=":formInit:form2:panelEditarP"
-					 oncomplete="PF('dlgEdit').show();" icon="ui-icon-edit" 
-					title="Editar">
-					<f:setPropertyActionListener value="#{producto}"
-						target="#{productoBean.selectedProducto}" />
-				</p:commandButton>
-
-			</p:column> -->
-
 			<p:column style="width:32px;text-align: center" exportable="false">
 				<p:commandButton immediate="true" icon="ui-icon-close"
 					title="Eliminar" update="formInit" 
@@ -212,6 +188,9 @@
 
 
 		</p:dataTable>
+		
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
 
 
 
@@ -294,6 +273,7 @@
 			<p:commandButton value="No" type="button"
 				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 		</p:confirmDialog>
+
 
 
 	</h:form>

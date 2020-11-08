@@ -14,16 +14,17 @@ version="1.0" encoding="UTF-8"?>
 	<!-- este jar no se ha colocado, lo buscamos en el pom.xml -->
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-			  <property name="url" 	value="jdbc:mysql://localhost:3306/systemmi_mixoax" />
+		 <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		 
+		 
+			<!--  <property name="url" 	value="jdbc:mysql://localhost:3306/systemmi_mixoax" />
 				<property name="username" value="systemmi" />
-				<property name="password" value="ab123456" />   
+				<property name="password" value="ab123456" />   --> 
 				
-		<!-- <property name="url"
+		 <property name="url"
 			value="jdbc:mysql://localhost:3306/mixoax" />
 		<property name="username" value="root" />
-		<property name="password" value="ab123456" />   -->
+		<property name="password" value="ab123456" />   
 
 	</bean>
 	

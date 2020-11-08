@@ -7,18 +7,17 @@ PUBLIC
 		<environment id="development">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
-				
-				
-
 				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<property name="url" 	value="jdbc:mysql://localhost:3306/systemmi_mixoax" />
+				
+				
+				<!-- <property name="url" 	value="jdbc:mysql://localhost:3306/systemmi_mixoax" />
 				<property name="username" value="systemmi" />
-				<property name="password" value="ab123456" />   
+				<property name="password" value="ab123456" />    -->
 				
 				
-		<!--  	 <property name="url" 	value="jdbc:mysql://localhost:3306/mixoax" />
+	 	 <property name="url" 	value="jdbc:mysql://localhost:3306/mixoax" />
 				<property name="username" value="root" />
-				<property name="password" value="ab123456" />   -->
+				<property name="password" value="ab123456" />   
 				 
 				
 				

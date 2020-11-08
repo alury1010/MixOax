@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+    http://www.springframework.org/schema/beans/spring-beans.xsd  
+    http://www.springframework.org/schema/security  
+    http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+	<!-- le digo cual es lo que tiene permitido cada quien -->
+	<http auto-config="true" use-expressions="false">
+		<intercept-url
+			pattern="/sysmixoax_pages/sysmixoax_secure/**" access="ROLE_ADMIN" />
+		<intercept-url pattern="/"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+
+		<form-login
+			login-page="/sysmixoax_pages/sysmixoax_unsecure/login2.xhtml" />
+			
+		
+
+		<logout delete-cookies="JSESSIONID" invalidate-session="true"
+			logout-url="/sysmixoax_pages/sysmixoax_unsecure/logout.xhtml"
+			logout-success-url="/sysmixoax_pages/sysmixoax_unsecure/login2.xhtml" /> 
+
+
+	</http>
+
+	<!-- cuando yo quiero autenticarme tiene que ir al data Source y ejecutar 
+		esas consultas -->
+	<!-- esto no tiene que ver con mybatis -->
+	<!-- el data source se tiene que definir en el applicationContext.xml -->
+	<authentication-manager
+		alias="authenticationManager">
+		<authentication-provider>
+			<user-service>
+				<user name="yesica" password="{noop}yesica"
+					authorities="ROLE_ADMIN" />
+			</user-service>
+
+		</authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>

@@ -10,21 +10,14 @@
 	</application>
 
 
-	<navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>home</from-outcome>
-			<to-view-id>/sysmixoax_pages/sysmixoax_secure/bienvenida.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>inventario</from-outcome>
-			<to-view-id>/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>cotizador</from-outcome>
-			<to-view-id>/sysmixoax_pages/sysmixoax_secure/Cotizador/index.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+	<!-- <navigation-rule> <from-view-id>*</from-view-id> <navigation-case> 
+		<from-outcome>home</from-outcome> <to-view-id>/sysmixoax_pages/sysmixoax_secure/bienvenida.xhtml</to-view-id> 
+		</navigation-case> <navigation-case> <from-outcome>inventario</from-outcome> 
+		<to-view-id>/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index.xhtml</to-view-id> 
+		</navigation-case> <navigation-case> <from-outcome>cotizador</from-outcome> 
+		<to-view-id>/sysmixoax_pages/sysmixoax_secure/Cotizador/index.xhtml</to-view-id> 
+		</navigation-case> </navigation-rule> -->
+
 
 	<lifecycle>
 		<phase-listener>com.javapuebla.utils.LifeCycleListener</phase-listener>

@@ -17,15 +17,25 @@
 				update="@form" />
 		</p:menubar> -->
 
-<!-- <p:menuitem  value="Inventario2" url="/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index.xhtml"/> -->
-
 		<p:menubar>
-			<p:menuitem  value="Home"  url="/sysmixoax_pages/sysmixoax_secure/bienvenida.xhtml"/>
-			<p:menuitem  value="Inventario"  url="/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index2.xhtml"/>
-			<p:menuitem  value="Cotizador"  url="/sysmixoax_pages/sysmixoax_secure/Cotizador/index.xhtml"/>
-			<p:menuitem  value="Salir"  url="/sysmixoax_pages/sysmixoax_unsecure/login2.xhtml"/>
+			<p:menuitem value="Home"
+				url="/sysmixoax_pages/sysmixoax_secure/bienvenida.xhtml" />
+			<p:menuitem value="Inventario"
+				url="/sysmixoax_pages/sysmixoax_secure/Catalogos/Producto/index2.xhtml" />
+			<p:menuitem value="Cotizador"
+				url="/sysmixoax_pages/sysmixoax_secure/Cotizador/index.xhtml" />
+
+				
+			<f:facet name="options">
+				<p:commandButton actionListener="#{loginMgmtBean.logout()}"
+					value="Logout"/>
+
+			</f:facet>
+
 		</p:menubar>
 
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
 	</h:form>
 
 </ui:composition>
