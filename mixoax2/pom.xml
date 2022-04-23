@@ -11,7 +11,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>5.2.7.RELEASE</spring.version>
+		<spring.version>5.3.19</spring.version>
 		<jsf.version>2.2.8</jsf.version>
 		<primefaces.version>6.2</primefaces.version><!-- antes 5.1 -->
 		<spring.security.version>5.0.6.RELEASE</spring.security.version>
