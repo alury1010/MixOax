@@ -14,7 +14,7 @@
 		<spring.version>5.2.7.RELEASE</spring.version>
 		<jsf.version>2.2.8</jsf.version>
 		<primefaces.version>6.2</primefaces.version><!-- antes 5.1 -->
-		<spring.security.version>5.0.6.RELEASE</spring.security.version>
+		<spring.security.version>5.5.7</spring.security.version>
 	</properties>
 
 
